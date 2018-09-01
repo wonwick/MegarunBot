@@ -12,9 +12,9 @@ d = [0,0,0,1,0]
 nk= [0,0,0,0,1]
 
 starting_value = 1
-
+lastFile="asd.npy"
 while True:
-    file_name = 'training_data-{}.npy'.format(starting_value)
+    file_name = 'G:/mlDataset/training_data-{}.npy'.format(starting_value)
 
     if os.path.isfile(file_name):
         print('File exists, moving along',starting_value)
@@ -87,6 +87,7 @@ def main(file_name, starting_value):
                     print('SAVED')
                     training_data = []
                     starting_value += 1
+                    lastFile=file_name
                     file_name = 'G:/mlDataset/training_data-{}.npy'.format(starting_value)
 
                     
@@ -102,17 +103,19 @@ def main(file_name, starting_value):
                 time.sleep(1)
         if 'E' in keys:
             if paused:
-                del training_data[-20:]
+                training_data=[]
                 time.sleep(1)
-
-                print('deleting last20 frames!')
+                os.remove(lastFile)           
+                print('emptying current array and remove last file')
+                
 
             else:
                 print('Pausing!')
                 paused = True
                 time.sleep(1)
-                del training_data[-20:]
-                print('deleting last20 frames!')
+                training_data=[]
+                os.remove(lastFile)           
+                print('emptying current array and remove last file')
 
 
 
