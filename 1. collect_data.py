@@ -5,11 +5,11 @@ import time
 from getkeys import key_check
 import os
 
-w = [1,0,0,0]
-s = [0,1,0,0]
-a = [0,0,1,0]
-d = [0,0,0,1]
-nk= [0,0,0,0]
+w = [1,0,0,0,0]
+s = [0,1,0,0,0]
+a = [0,0,1,0,0]
+d = [0,0,0,1,0]
+nk= [0,0,0,0,1]
 
 starting_value = 1
 
@@ -31,7 +31,7 @@ def keys_to_output(keys):
      0  1  2  3  4   5   6   7    8
     [W, S, A, D, WA, WD, SA, SD, NOKEY] boolean values.
     '''
-    output = [0,0,0,0]
+    output = [0,0,0,0,0]
 
 
     if 'W' in keys:
@@ -64,7 +64,7 @@ def main(file_name, starting_value):
             screen = grab_screen(region=(0,40,300,560))
             last_time = time.time()
             # resize to something a bit more acceptable for a CNN
-            screen = cv2.resize(screen, (300,560))
+            screen = cv2.resize(screen, (int(300/2),int(560/2)))
             # run a color convert:
             screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
             
@@ -82,7 +82,7 @@ def main(file_name, starting_value):
             if len(training_data) % 100 == 0:
                 print(len(training_data))
                 
-                if len(training_data) == 500:
+                if len(training_data) == 100:
                     np.save(file_name,training_data)
                     print('SAVED')
                     training_data = []
@@ -100,6 +100,20 @@ def main(file_name, starting_value):
                 print('Pausing!')
                 paused = True
                 time.sleep(1)
+        if 'E' in keys:
+            if paused:
+                del training_data[-20:]
+                time.sleep(1)
+
+                print('deleting last20 frames!')
+
+            else:
+                print('Pausing!')
+                paused = True
+                time.sleep(1)
+                del training_data[-20:]
+                print('deleting last20 frames!')
+
 
 
 main(file_name, starting_value)
