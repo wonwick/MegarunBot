@@ -8,7 +8,7 @@ import time
 i=1
 
 
-train_data = np.load('G:/mlDataset/training_data-20.npy')
+train_data = np.load('G:/mlDataset/training_data-210.npy')
 df = pd.DataFrame(train_data)
 print(df.head())
 print(Counter(df[1].apply(str)))

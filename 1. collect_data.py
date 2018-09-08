@@ -14,7 +14,7 @@ nk= [0,0,0,0,1]
 starting_value = 1
 lastFile="asd.npy"
 while True:
-    file_name = 'G:/mlDataset/training_data-{}.npy'.format(starting_value)
+    file_name = 'G:/mlDataset4/training_data-{}.npy'.format(starting_value)
 
     if os.path.isfile(file_name):
         print('File exists, moving along',starting_value)
@@ -84,11 +84,11 @@ def main(file_name, starting_value):
                 
                 if len(training_data) == 100:
                     np.save(file_name,training_data)
-                    print('SAVED')
+                    print(file_name,'SAVED')
                     training_data = []
                     starting_value += 1
                     lastFile=file_name
-                    file_name = 'G:/mlDataset/training_data-{}.npy'.format(starting_value)
+                    file_name = 'G:/mlDataset4/training_data-{}.npy'.format(starting_value)
 
                     
         keys = key_check()
