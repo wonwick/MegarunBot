@@ -1,5 +1,5 @@
 import numpy as np
-from grabscreen import grab_screen
+##from grabscreen import grab_screen
 import cv2
 import time
 import os
@@ -12,15 +12,15 @@ from random import shuffle
 
 FILE_I_END = 1860
 
-WIDTH = 480
-HEIGHT = 270
+WIDTH = 30
+HEIGHT = 56
 LR = 1e-3
 EPOCHS = 30
 
-MODEL_NAME = ''
+MODEL_NAME = 'theTrainedModelSunday'
 PREV_MODEL = ''
 
-LOAD_MODEL = True
+LOAD_MODEL = False
 
 wl = 0
 sl = 0
@@ -33,15 +33,10 @@ sal = 0
 sdl = 0
 nkl = 0
 
-w = [1,0,0,0,0,0,0,0,0]
-s = [0,1,0,0,0,0,0,0,0]
-a = [0,0,1,0,0,0,0,0,0]
-d = [0,0,0,1,0,0,0,0,0]
-wa = [0,0,0,0,1,0,0,0,0]
-wd = [0,0,0,0,0,1,0,0,0]
-sa = [0,0,0,0,0,0,1,0,0]
-sd = [0,0,0,0,0,0,0,1,0]
-nk = [0,0,0,0,0,0,0,0,1]
+w = [1,0,0,0,0]
+s = [0,1,0,0,0]
+a = [0,0,1,0,0]
+d = [0,0,0,1,1]
 
 model = googlenet(WIDTH, HEIGHT, 3, LR, output=9, model_name=MODEL_NAME)
 
@@ -60,10 +55,10 @@ for e in range(EPOCHS):
     for count,i in enumerate(data_order):
         
         try:
-            file_name = 'J:/phase10-random-padded/training_data-{}.npy'.format(i)
+            file_name = 'The_training_data.npy'
             # full file info
             train_data = np.load(file_name)
-            print('training_data-{}.npy'.format(i),len(train_data))
+        
 
 ##            # [   [    [FRAMES], CHOICE   ]    ] 
 ##            train_data = []
@@ -92,15 +87,19 @@ for e in range(EPOCHS):
             test_y = [i[1] for i in test]
 
             model.fit({'input': X}, {'targets': Y}, n_epoch=1, validation_set=({'input': test_x}, {'targets': test_y}), 
-                snapshot_step=2500, show_metric=True, run_id=MODEL_NAME)
+                snapshot_step=100, show_metric=True, run_id=MODEL_NAME)
 
 
             if count%10 == 0:
                 print('SAVING MODEL!')
+                saver.restore(sess,tf.train.latest_checkpoint(ckpt_dir)) 
                 model.save(MODEL_NAME)
+                
                     
         except Exception as e:
+            print("error is : ")
             print(str(e))
+            print(" error ends ")
             
     
 

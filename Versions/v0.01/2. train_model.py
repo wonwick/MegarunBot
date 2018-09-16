@@ -1,7 +1,7 @@
 import numpy as np
 from alexnet import alexnet2
 from random import shuffle
-import pandas as pd
+
 
 # what to start at
 START_NUMBER = 60
@@ -28,11 +28,9 @@ for i in range(EPOCHS):
     data_order = [i for i in range(START_NUMBER,hm_data+1)]
     shuffle(data_order)
     for i in data_order:
-        train_data = np.load('training_data-{}.npy'.format(i))
+        train_data = np.load('G:\TheMLDataset\The_training_data.npy')
         
-        df = pd.DataFrame(train_data)
-        df = df.iloc[np.random.permutation(len(df))]
-        train_data = df.values.tolist()
+
 
         train = train_data[:-100]
         test = train_data[-100:]
